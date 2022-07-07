@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,6 +21,27 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
+	
+	
+	
+	//아이디 중복체크
+	@ResponseBody
+	@RequestMapping(value="/user/checkId", method= {RequestMethod.POST, RequestMethod.GET})
+	public boolean checkId(@RequestBody String checkId) {
+		System.out.println("UserController>checkId()");
+		System.out.println(checkId);
+		
+		boolean check = userService.checkId(checkId);
+		System.out.println(check);
+		return check;
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	//회원정보 리스트

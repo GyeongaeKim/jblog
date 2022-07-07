@@ -37,7 +37,7 @@
 		      		</tr>
 		      		<tr>
 		      			<td></td>
-		      			<td id="tdMsg" colspan="2">사용할 수 있는 아이디 입니다.</td>
+		      			<td id="tdMsg" colspan="2"></td>
 		      		</tr> 
 		      		<tr>
 		      			<td><label for="txtPassword">패스워드</label> </td>
@@ -73,24 +73,45 @@
 
 </body>
 <script type="text/javascript">
-$(document).ready(function(){
-	$("#tdMsg").hide();
-})
 
+var idCheck = false;
 
 //아이디체크 버튼 클릭했을때
-$("#joinForm").on("click", "#btnIdCheck", function(){
+$("#btnIdCheck").on("click",  function(){
 	console.log("아이디 체크 버튼");
 	
-	var id = $("#txtId").val();
+	var checkId = $("#txtId").val();
 	
-	if(id == "" || id == null){
-		alert("아이디를 입력해주세요");
-		return false;
-	}else{
-		$("#tdMsg").show();
+	if(checkId == ""){
+		alert("아이디를 입력해 주세요.");
+		return;
 	}
+	
+	$.ajax({
+		url : "${pageContext.request.contextPath}/user/checkId",
+		type : "post",
+		contentType : "application/json",
+		data : JSON.stringify(checkId),
+		dataType : "json",
+		success : function(check){
+			console.log(check);
+			
+			if(check == false) {
+				$("#tdMsg").html('<font color="red">사용할 수 없는 아이디 입니다.</font>');
+			} else {
+				idChecked = true;
+				$("#txtId").attr("readonly", "readonly");
+				alert("사용 가능한 아이디입니다.");
+				$("#tdMsg").html('사용할 수 있는 아이디 입니다.');
+			}
+		},
+		error : function(XHR, status, error) {
+			console.error(status + " : " + error);
+		}
+	});
+	
 });
+
 
 
 //회원가입 버튼
@@ -102,12 +123,15 @@ $("#joinForm").on("click", "#btnJoin", function(){
 	var userName = $("#txtUserName").val();
 	
 	
-	
 	if(id == "" || id == null){
 		alert("아이디를 입력해주세요");
 		return false;
 	}
-	if(password.length < 8){
+	if(idCheck == false){
+		alert("아이디 중복확인 해주세요");
+		return false;
+	}
+	if(password.length < 8 || password == null){
 		alert("패스워드를 체크해주세요")
 		return false;
 	}
@@ -123,22 +147,13 @@ $("#joinForm").on("click", "#btnJoin", function(){
 		return false;
 	}
 	
+	return true;
+	
 });
 
 
 
-
 </script>
-
-
-
-
-
-
-
-
-
-
 
 
 </html>

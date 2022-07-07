@@ -14,6 +14,30 @@ public class UserService {
 	@Autowired
 	private UserDao userDao;
 	
+	
+	
+	
+	//중복체크
+	public boolean checkId(String checkId) {
+		System.out.println("UserService>checkId()");
+		String id = userDao.checkId(checkId);
+		
+		System.out.println(id==null);
+		if(id == null) {
+			return true;
+		} else {
+			return false;
+		}
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
 	//전체리스트 가져오기
 	public List<UserVo> getUserList(){
 		System.out.println("UserService>getUserList()");

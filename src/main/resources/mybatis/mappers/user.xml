@@ -13,6 +13,19 @@
 	</resultMap>
 	
 	
+	<!-- 아이디 중복 확인 -->
+	<select id="checkId" resultType="String" parameterType="String">
+		<![CDATA[
+			select id from users
+			where id = #{id}
+		]]>
+	</select>
+	
+	
+	
+	
+	
+	
 	<!-- ajax - selectList 유저리스트 -->
 	<select id="selectList" resultType="UserVo">
 		<![CDATA[

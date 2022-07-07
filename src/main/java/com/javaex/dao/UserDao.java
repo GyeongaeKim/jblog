@@ -14,6 +14,21 @@ public class UserDao {
 	@Autowired
 	private SqlSession sqlSession;
 	
+	
+	
+	//아이디 중복확인
+	public String checkId(String checkId) {
+		System.out.println("UserDao>checkId()");
+		String id = sqlSession.selectOne("user.checkId", checkId);
+		return id;
+	}
+	
+	
+	
+	
+	
+	
+	
 	//전체리스트 가져오기
 	public List<UserVo> selectList(){
 		System.out.println("UserDao>selectList()");
