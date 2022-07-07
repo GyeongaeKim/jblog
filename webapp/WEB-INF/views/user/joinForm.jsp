@@ -71,42 +71,57 @@
 		
 	</div>
 
-
-<!-- 모달창 **************************************************************-->
-<!-- 중복체크모달창 -->
-<div id="idCheckModal" class="modal fade">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">중복체크</h4>
-      </div>
-      <div class="modal-body">
-      
-      	<!-- <p>One fine body&hellip;</p> -->
-      	<!-- 입력폼 -->
-      	
-  
-  
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
-        <button id="btnModalDel" type="button" class="btn btn-primary">삭제</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
-
-<!-- 모달창 **************************************************************-->
-
 </body>
 <script type="text/javascript">
+$(document).ready(function(){
+	$("#tdMsg").hide();
+})
 
-/* 아이디체크 버튼 클릭했을때 */
+
+//아이디체크 버튼 클릭했을때
 $("#joinForm").on("click", "#btnIdCheck", function(){
 	console.log("아이디 체크 버튼");
 	
+	var id = $("#txtId").val();
+	
+	if(id == "" || id == null){
+		alert("아이디를 입력해주세요");
+		return false;
+	}else{
+		$("#tdMsg").show();
+	}
+});
+
+
+//회원가입 버튼
+$("#joinForm").on("click", "#btnJoin", function(){
+	console.log("회원가입 버튼");
+	
+	var id = $("#txtId").val();
+	var password = $("#txtPassword").val();
+	var userName = $("#txtUserName").val();
+	
+	
+	
+	if(id == "" || id == null){
+		alert("아이디를 입력해주세요");
+		return false;
+	}
+	if(password.length < 8){
+		alert("패스워드를 체크해주세요")
+		return false;
+	}
+	if(userName == "" || userName == null){
+		alert("이름을 입력해주세요");
+		return false;
+	}
+	
+	//약관동의
+	var agree = $("#chkAgree").is(":checked");
+	if(agree == false){
+		alert("약관에 동의해주세요");
+		return false;
+	}
 	
 });
 

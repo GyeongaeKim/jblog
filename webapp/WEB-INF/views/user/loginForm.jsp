@@ -7,7 +7,11 @@
 <meta charset="UTF-8">
 <title>JBlog</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/jblog.css">
+<link href="${pageContext.request.contextPath}/assets/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
 
+<!-- jquery -->
+<script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/jquery/jquery-1.12.4.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/assets/bootstrap/js/bootstrap.js"></script>
 </head>
 <body>
 	<div id="center-content">
@@ -52,5 +56,30 @@
 	</div>
 	
 </body>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#tdMsg").hide();
+})
+
+
+
+//로그인 버튼
+$("#loginForm").on("click", ".btn", function(){
+	console.log("로그인 버튼");
+	
+	var id = $("#textId").val();
+	var password = $("#textPassword").val();
+	
+	
+	if(id == "" || id == null || password == "" || password == null){
+		$("#tdMsg").show();
+		return false;
+	}
+});
+
+
+
+</script>
 
 </html>

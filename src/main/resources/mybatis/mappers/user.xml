@@ -13,6 +13,26 @@
 	</resultMap>
 	
 	
+	<!-- ajax - selectList 유저리스트 -->
+	<select id="selectList" resultType="UserVo">
+		<![CDATA[
+			select  userNo,
+					id,
+					userName,
+					password,
+					joinDate
+			from users
+			order by joinDate desc
+		]]>
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
 	<!-- 회원가입 insert -->
 	<insert id="userInsert" parameterType="UserVo">
 		<![CDATA[
@@ -20,5 +40,17 @@
 			values(seq_users_no.nextval, #{id}, #{userName}, #{password},  sysdate)
 		]]>
 	</insert>
+	
+	
+	<!-- 로그인 - 사용자 정보 가져오기 -->
+	<select id="getUser" parameterType="UserVo" resultMap="resultMapUserVo">
+		<![CDATA[
+			select  userNo,
+					userName
+			from users
+			where id = #{id}
+				and password = #{password}
+		]]>
+	</select>
 
 </mapper>

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%> 
 
 <!DOCTYPE html>
 <html>
@@ -7,6 +8,11 @@
 <meta charset="UTF-8">
 <title>JBlog</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/jblog.css">
+<link href="${pageContext.request.contextPath}/assets/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
+
+<!-- jquery -->
+<script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/jquery/jquery-1.12.4.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/assets/bootstrap/js/bootstrap.js"></script>
 
 
 </head>
@@ -15,12 +21,13 @@
 	<div id="wrap">
 		
 		<!-- 개인블로그 해더 -->
+		<c:import url="/WEB-INF/views/includes/blog-header.jsp"></c:import>
 
 
 		<div id="content">
 			<ul id="admin-menu" class="clearfix">
-				<li class="tabbtn selected"><a href="">기본설정</a></li>
-				<li class="tabbtn"><a href="">카테고리</a></li>
+				<li class="tabbtn"><a href="">기본설정</a></li>
+				<li class="tabbtn selected"><a href="">카테고리</a></li>
 				<li class="tabbtn"><a href="">글작성</a></li>
 			</ul>
 			<!-- //admin-menu -->
@@ -46,24 +53,10 @@
 		      		</thead>
 		      		<tbody id="cateList">
 		      			<!-- 리스트 영역 -->
-		      			<tr>
-							<td>1</td>
-							<td>자바프로그래밍</td>
-							<td>7</td>
-							<td>자바기초와 객체지향</td>
-						    <td class='text-center'>
-						    	<img class="btnCateDel" src="${pageContext.request.contextPath}/assets/images/delete.jpg">
-						    </td>
-						</tr>
-						<tr>
-							<td>2</td>
-							<td>오라클</td>
-							<td>5</td>
-							<td>오라클 설치와 sql문</td>
-						    <td class='text-center'>
-						    	<img class="btnCateDel" src="${pageContext.request.contextPath}/assets/images/delete.jpg">
-						    </td>
-						</tr>
+		      			
+		      			<div id="listArea">
+						</div>
+						
 						<!-- 리스트 영역 -->
 					</tbody>
 				</table>
@@ -94,6 +87,7 @@
 		
 		
 		<!-- 개인블로그 푸터 -->
+		<c:import url="/WEB-INF/views/includes/blog-footer.jsp"></c:import>
 		
 	
 	
@@ -101,7 +95,62 @@
 	<!-- //wrap -->
 </body>
 
+<script type="text/javascript">
+
+<!-- 준비가 끝나면 -->
+$(document).ready(function(){
+	console.log("jquery로 요청 - data만 받는 요청");
+	fetchList();
+});
+
+//리스트 요청
+function fetchList(){
+	$.ajax({
+		
+		url : "${pageContext.request.contextPath }/blog/categoryList",		
+		type : "post",
+		contentType : "application/json",
+		data : {name: name},
+
+		dataType : "json",
+		success : function(categoryList){	//function()안의 이름은 알아서 정하면 됨
+			/*성공시 처리해야될 코드 작성*/
+			console.log(categoryList);
+			for(var i=0; i<categoryList.length; i++){
+				render(categoryList[i], "down");
+			}
+		},
+		error : function(XHR, status, error) {
+			console.error(status + " : " + error);
+		}
+	});
+};
+
+//리스트 그리기
+function render(categotyVo, opt){	//opt 옵션을 추가한다.
+	console.log("render()");
+	
+	var str = '';
+	str += '<tr>';
+	str += '	<td>'+categoryVo.no+'</td>';
+	str += '	<td>'+cateNo.cateNo+'</td>';
+	str += '	<td>포스트 수</td>';
+	str += '	<td>'+cateNo.cateName+'</td>';
+	str += '	<td class='text-center'>';
+	str += '		<img class="btnCateDel" src="${pageContext.request.contextPath}/assets/images/delete.jpg">';
+	str += '	</td>';
+	str += '</tr>';
+	
+	
+	if(opt == "down"){
+		$("#listArea").append(str);
+	}else if(opt == "up"){
+		$("#listArea").prepend(str);
+	}else{
+		console.log("opt오류");
+	}
+}
 
 
-
+</script>
 </html>
