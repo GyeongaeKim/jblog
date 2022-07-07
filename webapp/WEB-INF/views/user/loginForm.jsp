@@ -21,7 +21,7 @@
 		<c:import url="/WEB-INF/views/includes/main-header.jsp"></c:import>
 		
 		<div id="loginForm">
-			<form method="post" action="${pageContext.request.contextPath}/user/login">
+			<form method="post" action="${pageContext.request.contextPath}/user/login/">
 	      		<table>
 			      	<colgroup>
 						<col style="width: 100px;">
@@ -62,15 +62,12 @@ $(document).ready(function(){
 	$("#tdMsg").hide();
 })
 
-
-
 //로그인 버튼
 $("#loginForm").on("click", ".btn", function(){
 	console.log("로그인 버튼");
 	
 	var id = $("#textId").val();
 	var password = $("#textPassword").val();
-	
 	
 	if(id == "" || id == null || password == "" || password == null){
 		$("#tdMsg").show();

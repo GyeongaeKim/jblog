@@ -1,6 +1,7 @@
 package com.javaex.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,25 @@ public class BlogDao {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	//admin업데이트-basic
+	
+	//블로그 정보 가져오기
+	public Map<String, String> getBlog(String id) {
+		System.out.println("BlogDao>getBlog()");
+		Map<String, String> blogMap = sqlSession.selectOne("blog.getBlog", id);
+		System.out.println(blogMap);
+		return blogMap;
+	}
+	
+	
+	//회원가입 시 블로그 만들기
+	public int joinBlog(BlogVo blogVo) {
+		System.out.println("BlogDao>joinBlog()");
+		return sqlSession.insert("blog.joinBlog", blogVo);
+	}
+	
+	
+	
+	//admin업데이트-basic수정
 	public int updateBasic(BlogVo blogVo) {
 		System.out.println("BlodDao>updateBasic");
 		return sqlSession.update("blog.updateBasic", blogVo);

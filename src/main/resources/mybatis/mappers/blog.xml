@@ -10,6 +10,34 @@
 	    <result column="logoFile" property="logoFile" />
 	</resultMap>
 	
+	
+	
+	<!-- 블로그 정보 가져오기 -->
+	<select id="getBlog" parameterType="String" resultType="map">
+		<![CDATA[
+			select	b.id,
+					blogTitle,
+					logoFile,
+					userName
+			from blog b, users u
+			where b.id = u.id
+				and b.id = #{value}
+		]]>
+	</select>
+	
+	<!-- 회원가입 시 블로그도 생성 -->
+	<insert id="joinBlog" parameterType="BlogVo">
+		<![CDATA[
+			insert into blog
+			values(#{id}, #{blogTitle}, #{logoFile})
+		]]>
+	</insert>
+	
+	
+	
+	
+	
+	
 	<!-- 수정 update -->
 	<update id="updateBasic" parameterType="BlogVo">
 		<![CDATA[

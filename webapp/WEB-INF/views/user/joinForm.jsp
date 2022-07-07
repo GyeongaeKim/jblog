@@ -99,10 +99,9 @@ $("#btnIdCheck").on("click",  function(){
 			if(check == false) {
 				$("#tdMsg").html('<font color="red">사용할 수 없는 아이디 입니다.</font>');
 			} else {
-				idChecked = true;
+				idCheck = true;
 				$("#txtId").attr("readonly", "readonly");
-				alert("사용 가능한 아이디입니다.");
-				$("#tdMsg").html('사용할 수 있는 아이디 입니다.');
+				$("#tdMsg").html('<font color="green">사용할 수 있는 아이디 입니다.</font>');
 			}
 		},
 		error : function(XHR, status, error) {

@@ -1,6 +1,7 @@
 package com.javaex.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.javaex.service.BlogService;
 import com.javaex.vo.BlogVo;
 import com.javaex.vo.CategoryVo;
+import com.javaex.vo.UserVo;
 
 @Controller
 public class BlogController {
@@ -27,36 +29,50 @@ public class BlogController {
 	
 	//블로그 메인으로 이동
 	@RequestMapping(value="/{id}", method = {RequestMethod.GET, RequestMethod.POST})
-	public String blogMain(@PathVariable("id") String id){
+	public String blogMain(@PathVariable("id") String id, HttpSession session){
 		System.out.println("BlogController>main()");
+		System.out.println(id);
+		
+		Map<String, String> blogMap = blogService.getBlog(id);
+		session.setAttribute("blogMap", blogMap);
+		System.out.println(blogMap); 
+		
 		return "blog/blog-main";
 	}
 	
 	
 	//블로그 메인으로 이동
 	@RequestMapping(value="/{id}/admin/basic", method = {RequestMethod.GET, RequestMethod.POST})
-	public String adminBasic(@PathVariable("id") String id){
+	public String adminBasic(Model model, @PathVariable("id") String id, HttpSession session){
 		System.out.println("BlogController>main()");
+		
+		UserVo authUser = (UserVo)session.getAttribute("authUser");
+		String checkId = authUser.getId();
+		Map<String, String> blogMap = blogService.getBasic(id, checkId);
+		if(blogMap == null) {
+			return "error/403";
+		}
+		model.addAttribute("blogMap", blogMap);
 		
 		return "blog/admin/blog-admin-basic";
 	}
 	
 	
 	//admin업데이트-basic
-	@RequestMapping(value="/updateBasic", method= {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="/{id}/updateBasic", method= {RequestMethod.GET, RequestMethod.POST})
 	public String updateBasic(@RequestParam("file") MultipartFile file,
-								@RequestParam("blogTitle") String blogTitle, Model model, HttpSession session) {
+								@RequestParam("blogTitle") String blogTitle, 
+								@PathVariable String id,
+								Model model, HttpSession session) {
 		System.out.println("BlogController>updateBasic()");
 		System.out.println(file.getOriginalFilename());
 		
 		BlogVo blogVo = new BlogVo();
 		blogVo.setId(session.getId());
 		blogVo.setBlogTitle(blogTitle);
-		blogVo.setLogoFile(blogTitle);
-		
 		
 		System.out.println(blogVo);
-		blogService.updateBasic(blogVo);
+		blogService.updateBasic(blogVo, file);
 		
 		
 		return "redirect:/{id}/admin/basic";
@@ -64,23 +80,6 @@ public class BlogController {
 	}
 	
 	
-	//admin업데이트-category
-	@RequestMapping(value="/{id}/admin/category", method = {RequestMethod.GET, RequestMethod.POST})
-	public String adminCategory(@PathVariable("id") String id){
-		System.out.println("BlogController>updateCategory()");
-		
-		return "blog/admin/blog-admin-cate";
-	}
 	
-	//categoryList
-	@ResponseBody
-	@RequestMapping(value="/blog/categoryList", method= {RequestMethod.GET, RequestMethod.POST})
-	public List <CategoryVo> categoryList() {
-		System.out.println("blog/admin/categoryList()");
-		List <CategoryVo> categoryList = blogService.getCategoryList();
-		System.out.println(categoryList);
-		
-		return categoryList;
-	}
 	
 }
