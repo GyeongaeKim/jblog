@@ -12,6 +12,12 @@ public class BlogVo {
 	//생성자
 	public BlogVo() {
 	}
+	
+	public BlogVo(String id, String blogTitle) {
+		this.id = id;
+		this.blogTitle = blogTitle;
+	}
+
 	public BlogVo(String id, String blogTitle, String logoFile) {
 		this.id = id;
 		this.blogTitle = blogTitle;

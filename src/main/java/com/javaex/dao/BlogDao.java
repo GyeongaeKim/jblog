@@ -38,6 +38,7 @@ public class BlogDao {
 	//admin업데이트-basic수정
 	public int updateBasic(BlogVo blogVo) {
 		System.out.println("BlodDao>updateBasic");
+		System.out.println(blogVo);
 		return sqlSession.update("blog.updateBasic", blogVo);
 	}
 	

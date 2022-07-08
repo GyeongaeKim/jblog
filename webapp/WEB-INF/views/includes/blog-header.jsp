@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 		<div id="header" class="clearfix">
-			<h1><a href="${pageContext.request.contextPath}/${blogVo.id}">${blogMap.BLOGTITLE}</a></h1>
+			<h1><a href="${pageContext.request.contextPath}/${blogMap.ID}">${blogMap.BLOGTITLE}</a></h1>
 			<ul class="clearfix">
 				<c:choose>
 					<c:when test="${authUser.userName == null}">

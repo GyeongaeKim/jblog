@@ -26,9 +26,9 @@
 
 		<div id="content">
 			<ul id="admin-menu" class="clearfix">
-				<li class="tabbtn"><a href="">기본설정</a></li>
-				<li class="tabbtn selected"><a href="">카테고리</a></li>
-				<li class="tabbtn"><a href="">글작성</a></li>
+				<li class="tabbtn"><a href="${pageContext.request.contextPath}/${authUser.id }/admin/basic">기본설정</a></li>
+				<li class="tabbtn selected"><a href="${pageContext.request.contextPath}/${authUser.id }/admin/category">카테고리</a></li>
+				<li class="tabbtn"><a href="${pageContext.request.contextPath}/${authUser.id }/admin/writeForm">글작성</a></li>
 			</ul>
 			<!-- //admin-menu -->
 			
@@ -68,11 +68,11 @@
 					</colgroup>
 		      		<tr>
 		      			<td class="t">카테고리명</td>
-		      			<td><input type="text" name="name" value=""></td>
+		      			<td><input type="text" name="cateName" value=""></td>
 		      		</tr>
 		      		<tr>
 		      			<td class="t">설명</td>
-		      			<td><input type="text" name="desc"></td>
+		      			<td><input type="text" name="description"></td>
 		      		</tr>
 		      	</table> 
 			
@@ -99,22 +99,23 @@
 
 <!-- 준비가 끝나면 -->
 $(document).ready(function(){
-	console.log("jquery로 요청 - data만 받는 요청");
+	console.log("카테고리 화면");
 	fetchList();
 });
+
+var id = '${authUser.id}';
 
 //리스트 요청
 function fetchList(){
 	$.ajax({
 		
-		url : "${pageContext.request.contextPath }/blog/categoryList",		
+		url : "${pageContext.request.contextPath }/getCList",		
 		type : "post",
 		contentType : "application/json",
-		data : {name: name},
+		data : {id: id},
 
 		dataType : "json",
-		success : function(categoryList){	//function()안의 이름은 알아서 정하면 됨
-			/*성공시 처리해야될 코드 작성*/
+		success : function(categoryList){
 			console.log(categoryList);
 			for(var i=0; i<categoryList.length; i++){
 				render(categoryList[i], "down");
@@ -126,31 +127,101 @@ function fetchList(){
 	});
 };
 
-//리스트 그리기
-function render(categotyVo, opt){	//opt 옵션을 추가한다.
-	console.log("render()");
+
+
+//카테고리 추가
+$("#btnAddCate").on("click", function(){
+	var cateName = $("[name=cateName]").val();
+	var description = $("[name=description]").val();
 	
-	var str = '';
-	str += '<tr>';
-	str += '	<td>'+categoryVo.no+'</td>';
-	str += '	<td>'+cateNo.cateNo+'</td>';
-	str += '	<td>포스트 수</td>';
-	str += '	<td>'+cateNo.cateName+'</td>';
-	str += '	<td class='text-center'>';
-	str += '		<img class="btnCateDel" src="${pageContext.request.contextPath}/assets/images/delete.jpg">';
+	if(cateName == "" || cateName == null){
+		alert("카테고리명을 입력해 주세요.");
+		return;
+	}
+	if(description == "" || description == null){
+		alert("설명을 입력해 주세요.");
+		return;
+	}
+	
+	var categoryVo = {
+			cateName: cateName,
+			id: id,
+			description: description
+	};
+	
+	$.ajax({
+		url : "${pageContext.request.contextPath}/addCategory",
+		type: "post",
+		contentType : "application/json",
+		data : {categoryVo},
+		dataType : "json",
+		success : function(categoryVo){
+			console.log(categoryVo);
+			render(categoryVo, 'up');
+		},
+		error : function(XHR, status, error) {
+			console.error(status + " : " + error);
+		}
+	});
+});
+
+
+
+//카테고리 삭제
+$("#cateList").on("click", ".btnCateDel", function(){
+	var $this = $(this);
+	var postCount = parseInt($this.data("postcount"));
+	
+	if(pCount > 0){
+		alert("삭제할 수 없습니다.");
+		return;
+	}
+	
+	var cateNo = parseInt($this.data("cateno"));
+	
+	$.ajax({
+		url : "${pageContext.request.contextPath}/deleteCategory",
+		type: "post",
+		contentType : "application/json",
+		data : {cateNo: cateNo},
+		dataType : "json",
+		success : function(count){
+			if(count > 0) {
+				$("#t" + cateNo).remove();
+			}
+		},
+		error : function(XHR, status, error) {
+			console.error(status + " : " + error);
+		}
+	});
+});
+
+
+//테이블 데이터 추가
+function render(postMap, order) {
+	var postCount = postMap.POSTCOUNT;
+	if(postCount == null){
+		postCount = 0;
+	}
+	
+	var str;
+	str += '<tr id="t' + postMap.CATENO + '">';
+	str += '	<td>' + postMap.CATENO + '</td>';
+	str += '	<td>' + postMap.CATENAME + '</td>';
+	str += '	<td>' + postCount + '</td>';
+	str += '	<td>' + postMap.DESCRIPTION + '</td>';
+	str += '	<td class="text-center">';
+	str += '		<img class="btnCateDel" src="${pageContext.request.contextPath}/assets/images/delete.jpg"';
+	str += '				data-postcount="' + postCount + '" data-cateno="' + postMap.CATENO + '">';
 	str += '	</td>';
 	str += '</tr>';
 	
-	
-	if(opt == "down"){
-		$("#listArea").append(str);
-	}else if(opt == "up"){
-		$("#listArea").prepend(str);
-	}else{
-		console.log("opt오류");
+	if(order == 'down') {
+		$("#cateList").append(str);
+	} else {
+		$("#cateList").prepend(str);
 	}
 }
-
 
 </script>
 </html>

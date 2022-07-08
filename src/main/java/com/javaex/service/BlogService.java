@@ -35,17 +35,15 @@ public class BlogService {
 	//2.블로그 정보 가져오기(basic수정)
 	public Map<String, String> getBasic(String id, String checkId) {
 		System.out.println("BlogService>getBasic()");
-		
 		if(!id.equals(checkId)) {
 			return null;
 		}
-		
 		Map<String, String> blogVo = blogDao.getBlog(id);
 		return blogVo;
 	}
 	
 	//블로그 정보 수정(updateBasic)
-	public int updateBasic(BlogVo bVo, MultipartFile file) {
+	public int updateBasic(BlogVo blogVo, MultipartFile file) {
 		System.out.println("BlogService>updateBasic()");
 		
 		String saveDir = "c:\\javaStudy\\upload";
@@ -78,7 +76,6 @@ public class BlogService {
 		}
 		
 		
-		BlogVo blogVo = new BlogVo();
 		blogVo.setLogoFile(logoFile);
 		int count = blogDao.updateBasic(blogVo);
 		

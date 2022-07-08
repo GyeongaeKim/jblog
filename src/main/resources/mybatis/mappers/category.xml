@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="category">
+	<!-- 쿼리문 작성 -->
+	<resultMap id="resultMapCategoryVo" type="com.javaex.vo.CategoryVo" >
+	    <result column="cateNo" property="cateNo" />
+	    <result column="id" property="id" />
+	    <result column="cateName" property="cateName" />
+	    <result column="description" property="description" />
+	    <result column="regDate" property="regDate" />
+	</resultMap>
+	
+	
+	<!-- 카테고리 리스트 가져오기-->
+	
+	
+	
+	
+	<!-- 카테고리 추가 -->
+	<insert id="addCategory" parameterType="CategoryVo">
+		<![CDATA[
+			insert into category
+			values(#{cateNo}, #{id}, #{cateName}, #{description}, sysdate)
+		]]>
+	</insert>
+	
+	
+	
+	<!-- 추가 후 정보 가져오기 -->
+	
+	
+	
+	<!-- 카테고리 삭제 -->
+	<delete id="deleteCategory" parameterType="int">
+		<![CDATA[
+			delete from category
+			where cateNo = #{cateNo}
+		]]>
+	</delete>
+	
+	
+	
+	
+</mapper>
