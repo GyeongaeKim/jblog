@@ -192,7 +192,7 @@ $("#cateList").on("click", ".btnCateDel", function(){
 
 
 //테이블 데이터 추가
-function render(categoryList, opt) {
+function render(categoryVo, opt) {
 	
 	
 	var str = '';
