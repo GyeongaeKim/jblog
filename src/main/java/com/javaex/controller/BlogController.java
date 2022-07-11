@@ -1,5 +1,6 @@
 package com.javaex.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.javaex.service.BlogService;
+import com.javaex.service.CategoryService;
 import com.javaex.vo.BlogVo;
 import com.javaex.vo.UserVo;
 
@@ -22,6 +24,8 @@ public class BlogController {
 	
 	@Autowired
 	private BlogService blogService;
+	@Autowired
+	private CategoryService categoryService;
 	
 	
 	//블로그 메인으로 이동
@@ -50,6 +54,9 @@ public class BlogController {
 			return "error/403";
 		}
 		model.addAttribute("blogMap", blogMap);
+		List<Map<String, Object>> categoryList = categoryService.getCList(id);
+		model.addAttribute("categoryList", categoryList);
+		
 		
 		return "blog/admin/blog-admin-basic";
 	}

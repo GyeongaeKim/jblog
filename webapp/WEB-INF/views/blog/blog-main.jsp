@@ -78,27 +78,13 @@
 							<col style="">
 							<col style="width: 20%;">
 						</colgroup>
+						<c:forEach items="${categoryList }" var="categoryVo">
+							<tr>
+								<td class="text-left"><a href="">${categoryVo.cateName }</a></td>
+								<td class="text-right">${categoryVo.regDate }</td>
+							</tr>
+						</c:forEach>
 						
-						<tr>
-							<td class="text-left"><a href="">08.페이징</a></td>
-							<td class="text-right">2020/07/23</td>
-						</tr>
-						<tr>
-							<td class="text-left"><a href="">07.첨부파일_MultipartResolver</a></td>
-							<td class="text-right">2020/07/23</td>
-						</tr>
-						<tr>
-							<td class="text-left"><a href="">06.jquery_ajax</a></td>
-							<td class="text-right">2020/07/23</td>
-						</tr>
-						<tr>
-							<td class="text-left"><a href="">05.javaScript</a></td>
-							<td class="text-right">2020/07/23</td>
-						</tr>
-						<tr>
-							<td class="text-left"><a href="">04.spring_어플리케이션_아키텍쳐</a></td>
-							<td class="text-right">2020/07/23</td>
-						</tr>
 						
 						
 					</table>
