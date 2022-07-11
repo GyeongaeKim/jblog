@@ -1,5 +1,6 @@
 package com.javaex.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -46,7 +47,14 @@ public class CategoryController {
 	
 	
 	//카테고리 리스트
-	
+	@ResponseBody
+	@RequestMapping(value="/getCList", method= {RequestMethod.GET, RequestMethod.POST})
+	public List<Map<String, Object>> getCList(@RequestBody String id){
+		System.out.println("CategoryController>getCList()");
+		
+		List<Map<String, Object>> categoryList = categoryService.getCList(id);
+		return categoryList;
+	}
 	
 	
 	//카테고리 추가
@@ -65,7 +73,9 @@ public class CategoryController {
 	@RequestMapping(value="/deleteCategory", method= {RequestMethod.GET, RequestMethod.POST})
 	public int deleteCategory(@RequestBody int cateNo) {
 		System.out.println("CategoryController>deleteCategory");
-		return categoryService.deleteCategory(cateNo);
+		
+		 int count = categoryService.deleteCategory(cateNo);
+		 return count;
 	}
 	
 	

@@ -58,7 +58,15 @@
 		]]>
 	</update>
 
-
+	<!-- 블로그 헤더 -->
+	<select id="getHeader" parameterType="String" resultType="map">
+		<![CDATA[
+			select	id,
+					blogTitle
+			from blog
+			where id = #{id}
+		]]>
+	</select>
 
 
 

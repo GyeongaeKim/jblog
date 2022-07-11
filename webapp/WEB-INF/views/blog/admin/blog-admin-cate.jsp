@@ -54,8 +54,8 @@
 		      		<tbody id="cateList">
 		      			<!-- 리스트 영역 -->
 		      			
-		      			<div id="listArea">
-						</div>
+		      			<!-- <div id="listArea">
+						</div> -->
 						
 						<!-- 리스트 영역 -->
 					</tbody>
@@ -169,55 +169,49 @@ $("#btnAddCate").on("click", function(){
 });
 
 
-/*
+
 //카테고리 삭제
 $("#cateList").on("click", ".btnCateDel", function(){
 	var $this = $(this);
-	var postCount = parseInt($this.data("postcount"));
-	
-	if(pCount > 0){
-		alert("삭제할 수 없습니다.");
-		return;
-	}
-	
 	var cateNo = parseInt($this.data("cateno"));
 	
 	$.ajax({
 		url : "${pageContext.request.contextPath}/deleteCategory",
 		type: "post",
 		contentType : "application/json",
-		data : {cateNo: cateNo},
+		data : JSON.stringify(cateNo),
 		dataType : "json",
 		success : function(count){
-			if(count > 0) {
-				$("#t" + cateNo).remove();
-			}
+			$("#t" + cateNo).remove();
 		},
 		error : function(XHR, status, error) {
 			console.error(status + " : " + error);
 		}
 	});
 });
-*/
+
 
 //테이블 데이터 추가
-function render(categoryMap, opt) {
+function render(categoryList, opt) {
+	
 	
 	var str = '';
-	str += '<tr id="t' + categoryMap.CATENO + '">';
-	str += '	<td>' + categoryMap.CATENO + '</td>';
-	str += '	<td>' + categoryMap.CATENAME + '</td>';
-	str += '	<td>포스트 수</td>';
-	str += '	<td>' + categoryMap.DESCRIPTION + '</td>';
-	str += '	<td class="text-center">';
-	str += '		<img class="btnCateDel" src="${pageContext.request.contextPath}/assets/images/delete.jpg"';
+	str += '<tr id="t' + categoryVo.cateNo + '">';
+	str += '	<td>' + categoryVo.cateNo + '</td>';
+	str += '	<td>' + categoryVo.cateName + '</td>';
+	str += '	<td>포스트수</td>';
+	str += '	<td>' + categoryVo.description + '</td>';
+	str += '	<td>';
+	str += '		<img class="btnCateDel" src="${pageContext.request.contextPath}/assets/images/delete.jpg" data-cateno="'+categoryVo.cateNo+'">';
 	str += '	</td>';
 	str += '</tr>';
 	
-	if(order == 'down') {
-		$("#listArea").append(str);
+	if(opt == 'down') {
+		$("#cateList").append(str);
+	} else if(opt == 'up'){
+		$("#cateList").prepend(str);
 	} else {
-		$("#listArea").prepend(str);
+		console.log("opt오류");
 	}
 }
 

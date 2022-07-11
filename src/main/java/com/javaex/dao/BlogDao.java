@@ -27,6 +27,16 @@ public class BlogDao {
 	}
 	
 	
+	
+	//블로그 헤더 정보 가져오기
+	public Map<String, String> getHeader(String id) {
+		System.out.println("BlogDao>getBlog");
+		
+		Map<String, String> bMap = sqlSession.selectOne("blog.getHeader", id);
+		return bMap;
+	}
+	
+	
 	//회원가입 시 블로그 만들기
 	public int joinBlog(BlogVo blogVo) {
 		System.out.println("BlogDao>joinBlog()");

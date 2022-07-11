@@ -41,8 +41,9 @@
 				      		<td>
 				      			<select name="cateNo">
 				      				<!-- 카테고리 리스트 영역 -->
-				      				<option value="자바프로그래밍">자바프로그래밍</option>
-				      				<option value="오라클">오라클</option>
+				      				<c:forEach items="${categoryList }" var="categoryVo">
+				      					<option value="${categoryVo.cateNo }">${categoryVo.cateName }</option>
+					      			</c:forEach>
 				      				<!-- 카테고리 리스트 영역 -->
 				      			</select>
 				      		</td>

@@ -22,12 +22,12 @@
 				<div id="profile">
 					
 					<!-- 기본이미지 -->
-					<img id="proImg" src="${pageContext.request.contextPath}/assets/images/logo.jpg">
+					<img id="proImg" src="${pageContext.request.contextPath}/${blogMap.LOGOFILE}">
 					
 					<!-- 사용자업로드 이미지 -->
 					<%-- <img id="proImg" src=""> --%>
 					
-					<div id="nick">${authUser.userName}님</div>
+					<div id="nick">(${blogMap.ID})님</div>
 				</div>
 				<div id="cate">
 					<div class="text-left">

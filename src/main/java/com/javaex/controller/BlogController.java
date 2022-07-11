@@ -26,7 +26,7 @@ public class BlogController {
 	
 	//블로그 메인으로 이동
 	@RequestMapping(value="/{id}", method = {RequestMethod.GET, RequestMethod.POST})
-	public String blogMain(@PathVariable("id") String id, HttpSession session){
+	public String blogMain(@PathVariable("id") String id, HttpSession session, Model model){
 		System.out.println("BlogController>main()");
 		System.out.println(id);
 		

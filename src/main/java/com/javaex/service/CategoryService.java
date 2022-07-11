@@ -1,6 +1,7 @@
 package com.javaex.service;
 
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,12 @@ public class CategoryService {
 	
 	
 	//카테고리 리스트 가져오기
-	
+	public List<Map<String, Object>> getCList(String id) {
+		System.out.println("CategoryService>getCList");
+		
+		List<Map<String, Object>> categoryList = categoryDao.getCList(id);
+		return categoryList;
+	}
 	
 	//카테고리 추가
 	public Map<String, Object> addCategory(CategoryVo categoryVo) {

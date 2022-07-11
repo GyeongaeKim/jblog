@@ -1,6 +1,7 @@
 package com.javaex.dao;
 
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -15,6 +16,20 @@ public class CategoryDao {
 	private SqlSession sqlSession;
 	
 	//카테고리 리스트 가져오기
+	public List<Map<String, Object>> getCList(String id) {
+		System.out.println("CategoryDao>getCList");
+		
+		List<Map<String, Object>> categoryList = sqlSession.selectList("category.getCList", id);
+		return categoryList;
+	}
+	
+	//포스트-카테고리 리스트 가져오기
+	public List<CategoryVo> getNameList(String id) {
+		System.out.println("CategoryDao>getNameList");
+		List<CategoryVo> categoryList = sqlSession.selectList("category.getNameList", id);
+		return categoryList;
+	}
+	
 	
 	
 	//카테고리 추가

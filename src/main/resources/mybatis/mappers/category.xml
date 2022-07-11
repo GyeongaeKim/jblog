@@ -13,7 +13,16 @@
 	
 	
 	<!-- 카테고리 리스트 가져오기-->
-	
+	<select id="getCList" parameterType="String" resultType="map">
+		<![CDATA[
+			select	cateNo,
+					id,
+					cateName,
+					description,
+					regDate
+			from category
+		]]>
+	</select>
 	
 	
 	
@@ -32,7 +41,22 @@
 	
 	
 	<!-- 추가 후 정보 가져오기 -->
-	
+	<select id="getCategory" parameterType="int" resultType="map">
+		<![CDATA[
+			select	c.cateNo,
+					cateName,
+					pcount,
+					description
+			from category c
+				left outer join
+					(select	count(*) pcount, c.cateNo
+					from category c, post p 
+					where p.cateNo = c.cateNo
+					group by c.cateNo) p
+				on c.cateNo = p.cateNo
+			where c.cateNo = #{cateNo}
+		]]>
+	</select>
 	
 	
 	<!-- 카테고리 삭제 -->
@@ -43,6 +67,16 @@
 		]]>
 	</delete>
 	
+	
+	<!-- 포스트 작성할때 카테고리 리스트 가져오기 -->
+	<select id="getNameList" resultType="CategoryVo" parameterType="String">
+		<![CDATA[
+			select cateNo, cateName
+			from category
+			where id = #{id}
+			order by cateNo desc
+		]]>
+	</select>
 	
 	
 	

@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.javaex.service.BlogService;
 import com.javaex.service.PostService;
 import com.javaex.vo.PostVo;
 import com.javaex.vo.UserVo;
@@ -20,8 +19,6 @@ import com.javaex.vo.UserVo;
 @Controller
 public class PostController {
 	
-	@Autowired
-	private BlogService blogService;
 	@Autowired
 	private PostService postService;
 	
@@ -33,11 +30,16 @@ public class PostController {
 		
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		String checkId = authUser.getId();
-		Map<String, String> blogMap = blogService.getBasic(id, checkId);
-		if(blogMap == null) {
+		
+		Map<String, Object> postMap = postService.writeForm(id, checkId);
+		
+		if(postMap == null) {
 			return "error/403";
 		}
-		model.addAttribute("blogMap", blogMap);
+		
+		model.addAttribute("blogMap", postMap.get("blogMap"));
+		model.addAttribute("categoryList", postMap.get("categoryList"));
+		
 		return "blog/admin/blog-admin-write";
 	}
 	
@@ -49,5 +51,8 @@ public class PostController {
 		postService.write(postVo);
 		return "redirect:/{id}/admin/writeForm";
 	}
+	
+	
+	
 	
 }
