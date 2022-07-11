@@ -1,6 +1,8 @@
 package com.javaex.dao;
 
 
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -23,6 +25,12 @@ public class CategoryDao {
 	
 	
 	//카테고리 추가 후 정보 가져오기
+	public Map<String, Object> getCategory(int cateNo) {
+		System.out.println("CategoryDao>getCategory()");
+		Map<String, Object> categoryMap = sqlSession.selectOne("category.getCategory", cateNo);
+		return categoryMap;
+	}
+	
 	
 	
 	//카테고리 삭제

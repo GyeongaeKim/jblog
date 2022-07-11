@@ -52,9 +52,11 @@ public class CategoryController {
 	//카테고리 추가
 	@ResponseBody
 	@RequestMapping(value="/addCategory", method= {RequestMethod.GET, RequestMethod.POST})
-	public int addCategory(@RequestBody CategoryVo categoryVo){
-		System.out.println("CategoryController>addCategory");
-		return categoryService.addCategory(categoryVo);
+	public Map<String, Object> addCategory(@RequestBody CategoryVo categoryVo){
+		System.out.println("CategoryController>addCategory()");
+		
+		Map<String, Object> categoryMap = categoryService.addCategory(categoryVo);
+		return categoryMap;
 	}
 	
 	

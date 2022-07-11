@@ -1,6 +1,8 @@
 package com.javaex.service;
 
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,10 +20,16 @@ public class CategoryService {
 	
 	
 	//카테고리 추가
-	public int addCategory(CategoryVo categoryVo) {
+	public Map<String, Object> addCategory(CategoryVo categoryVo) {
 		System.out.println("CategoryService > addCategory");
 		
-		return categoryDao.addCategory(categoryVo);
+		categoryDao.addCategory(categoryVo);
+		
+		Map<String, Object> categoryMap = null;
+		int cateNo = categoryVo.getCateNo();
+		categoryMap = categoryDao.getCategory(cateNo);
+		
+		return categoryMap;
 	}
 	
 	//카테고리 삭제

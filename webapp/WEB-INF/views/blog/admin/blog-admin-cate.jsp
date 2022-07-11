@@ -112,7 +112,7 @@ function fetchList(){
 		url : "${pageContext.request.contextPath }/getCList",		
 		type : "post",
 		contentType : "application/json",
-		data : {id: id},
+		data : JSON.stringify(id),
 
 		dataType : "json",
 		success : function(categoryList){
@@ -153,11 +153,14 @@ $("#btnAddCate").on("click", function(){
 		url : "${pageContext.request.contextPath}/addCategory",
 		type: "post",
 		contentType : "application/json",
-		data : {categoryVo},
+		data : JSON.stringify(categoryVo),
 		dataType : "json",
-		success : function(categoryVo){
-			console.log(categoryVo);
-			render(categoryVo, 'up');
+		success : function(categoryMap){
+			console.log(categoryMap);
+			render(categoryMap, 'up');
+			
+			$("[name=cateName]").val("");
+			$("[name=description]").val("");
 		},
 		error : function(XHR, status, error) {
 			console.error(status + " : " + error);
@@ -166,7 +169,7 @@ $("#btnAddCate").on("click", function(){
 });
 
 
-
+/*
 //카테고리 삭제
 $("#cateList").on("click", ".btnCateDel", function(){
 	var $this = $(this);
@@ -195,31 +198,26 @@ $("#cateList").on("click", ".btnCateDel", function(){
 		}
 	});
 });
-
+*/
 
 //테이블 데이터 추가
-function render(postMap, order) {
-	var postCount = postMap.POSTCOUNT;
-	if(postCount == null){
-		postCount = 0;
-	}
+function render(categoryMap, opt) {
 	
-	var str;
-	str += '<tr id="t' + postMap.CATENO + '">';
-	str += '	<td>' + postMap.CATENO + '</td>';
-	str += '	<td>' + postMap.CATENAME + '</td>';
-	str += '	<td>' + postCount + '</td>';
-	str += '	<td>' + postMap.DESCRIPTION + '</td>';
+	var str = '';
+	str += '<tr id="t' + categoryMap.CATENO + '">';
+	str += '	<td>' + categoryMap.CATENO + '</td>';
+	str += '	<td>' + categoryMap.CATENAME + '</td>';
+	str += '	<td>포스트 수</td>';
+	str += '	<td>' + categoryMap.DESCRIPTION + '</td>';
 	str += '	<td class="text-center">';
 	str += '		<img class="btnCateDel" src="${pageContext.request.contextPath}/assets/images/delete.jpg"';
-	str += '				data-postcount="' + postCount + '" data-cateno="' + postMap.CATENO + '">';
 	str += '	</td>';
 	str += '</tr>';
 	
 	if(order == 'down') {
-		$("#cateList").append(str);
+		$("#listArea").append(str);
 	} else {
-		$("#cateList").prepend(str);
+		$("#listArea").prepend(str);
 	}
 }
 
