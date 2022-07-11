@@ -15,12 +15,18 @@
 	<!-- 카테고리 리스트 가져오기-->
 	<select id="getCList" parameterType="String" resultType="map">
 		<![CDATA[
-			select	cateNo,
-					id,
+			select	c.cateNo,
 					cateName,
-					description,
-					regDate
-			from category
+					postcount,
+					description
+			from category c
+				left outer join
+					(select	count(*) postcount, c.cateNo
+					from category c, post p 
+					where p.cateNo = c.cateNo
+					group by c.cateNo) p
+				on c.cateNo = p.cateNo
+			order by cateNo desc
 		]]>
 	</select>
 	
@@ -45,11 +51,11 @@
 		<![CDATA[
 			select	c.cateNo,
 					cateName,
-					pcount,
+					postcount,
 					description
 			from category c
 				left outer join
-					(select	count(*) pcount, c.cateNo
+					(select	count(*) postcount, c.cateNo
 					from category c, post p 
 					where p.cateNo = c.cateNo
 					group by c.cateNo) p

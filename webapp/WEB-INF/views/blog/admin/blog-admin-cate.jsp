@@ -174,6 +174,12 @@ $("#btnAddCate").on("click", function(){
 $("#cateList").on("click", ".btnCateDel", function(){
 	var $this = $(this);
 	var cateNo = parseInt($this.data("cateno"));
+	var postCount = $this.data("postcount");
+	
+	if(postCount>0){
+		alert("삭제할 수 없습니다.");
+		return;
+	}
 	
 	$.ajax({
 		url : "${pageContext.request.contextPath}/deleteCategory",
@@ -192,17 +198,20 @@ $("#cateList").on("click", ".btnCateDel", function(){
 
 
 //테이블 데이터 추가
-function render(categoryVo, opt) {
-	
+function render(categoryMap, opt) {
+	var postCount = categoryMap.POSTCOUNT;
+	if(postCount == null){
+		postCount = 0;
+	}
 	
 	var str = '';
-	str += '<tr id="t' + categoryVo.cateNo + '">';
-	str += '	<td>' + categoryVo.cateNo + '</td>';
-	str += '	<td>' + categoryVo.cateName + '</td>';
-	str += '	<td>포스트수</td>';
-	str += '	<td>' + categoryVo.description + '</td>';
+	str += '<tr id="t' + categoryMap.CATENO + '">';
+	str += '	<td>' + categoryMap.CATENO + '</td>';
+	str += '	<td>' + categoryMap.CATENAME + '</td>';
+	str += '	<td>'+ postCount +'</td>';
+	str += '	<td>' + categoryMap.DESCRIPTION + '</td>';
 	str += '	<td>';
-	str += '		<img class="btnCateDel" src="${pageContext.request.contextPath}/assets/images/delete.jpg" data-cateno="'+categoryVo.cateNo+'">';
+	str += '		<img class="btnCateDel" src="${pageContext.request.contextPath}/assets/images/delete.jpg" data-postcount="'+postCount+'" data-cateno="'+categoryMap.CATENO+'">';
 	str += '	</td>';
 	str += '</tr>';
 	

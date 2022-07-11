@@ -27,20 +27,16 @@
 					<!-- 사용자업로드 이미지 -->
 					<%-- <img id="proImg" src=""> --%>
 					
-					<div id="nick">(${blogMap.ID})님</div>
+					<div id="nick">${blogMap.USERNAME}(${blogMap.ID})님</div>
 				</div>
 				<div id="cate">
 					<div class="text-left">
 						<strong>카테고리</strong>
 					</div>
 					<ul id="cateList" class="text-left">
-						<li><a href="$}">카테고리5</a></li>
-						<li><a href="$}">카테고리4</a></li>
-						<li><a href="$}">카테고리3</a></li>
-						<li><a href="$}">카테고리2</a></li>
-						<li><a href="$}">카테고리1</a></li>
-						<li><a href="$}">미분류</a></li>
-						
+						<c:forEach items="${categoryList }" var="categoryVo">
+							<li><a class="cateItem" href="${pageContext.request.contextPath }/${blogMap.ID}?cateNo=${categoryVo.cateNo }">${categoryVo.cateName }</a></li>
+						</c:forEach>
 					</ul>
 				</div>
 			</div>
