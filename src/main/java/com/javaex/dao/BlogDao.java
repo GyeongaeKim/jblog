@@ -44,6 +44,22 @@ public class BlogDao {
 	
 	
 	
+	//블로그 로고 정보 가져오기
+	public String getLogoFile(String id) {
+		System.out.println("BlogDao>getLogoFile()");
+		
+		String logoFile = sqlSession.selectOne("getLogoFile", id);
+		return logoFile;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	//ajax활용 - 전체리스트 가져오기
 	public List<CategoryVo> selectList() {
 		System.out.println("BlogDao>selectList()");

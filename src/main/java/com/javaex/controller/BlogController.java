@@ -59,20 +59,19 @@ public class BlogController {
 	@RequestMapping(value="/{id}/updateBasic", method= {RequestMethod.GET, RequestMethod.POST})
 	public String updateBasic(@RequestParam("file") MultipartFile file,
 								@RequestParam("blogTitle") String blogTitle, 
-								@PathVariable String id,
-								Model model, HttpSession session) {
+								@PathVariable String id) {
 		System.out.println("BlogController>updateBasic()");
 		System.out.println(file.getOriginalFilename());
 		
 		BlogVo blogVo = new BlogVo();
-		blogVo.setId(session.getId());
+		blogVo.setId(id);
 		blogVo.setBlogTitle(blogTitle);
 		
 		System.out.println(blogVo);
 		blogService.updateBasic(blogVo, file);
 		
 		
-		return "redirect:/{id}/admin/basic";
+		return "redirect:/admin/basic/"+id;
 		
 	}
 	

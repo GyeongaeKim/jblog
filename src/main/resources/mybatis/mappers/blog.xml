@@ -25,6 +25,16 @@
 		]]>
 	</select>
 	
+	<!-- 블로그 로고 이름 가져오기 -->
+	<select id="getLogoFile" parameterType="String" resultType="String">
+		<![CDATA[
+			select logoFile
+			from blog
+			where id = #{value}
+		]]>
+	</select>
+	
+	
 	<!-- 회원가입 시 블로그도 생성 -->
 	<insert id="joinBlog" parameterType="BlogVo">
 		<![CDATA[
